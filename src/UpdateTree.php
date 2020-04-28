@@ -7,7 +7,6 @@ namespace Task1;
 use Symfony\Component\Serializer\Encoder\JsonEncode;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use UnexpectedValueException;
-use function array_key_exists;
 use function assert;
 use function is_string;
 use const JSON_PRETTY_PRINT;
@@ -63,10 +62,12 @@ class UpdateTree
      */
     private function updateNamesInTreeItem(array &$treeItem, array $translations) : void
     {
-        $categoryId = (int) $treeItem['id'];
-        $name       = $translations[$categoryId] ?? null;
-        if ($name) {
-            $treeItem['name'] = $name;
+        if (isset($treeItem['id']) && ! empty($treeItem['id']) && (int) $treeItem['id']) {
+            $categoryId = (int) $treeItem['id'];
+            $name       = $translations[$categoryId] ?? null;
+            if ($name) {
+                $treeItem['name'] = $name;
+            }
         }
 
         if (! isset($treeItem['children'])) {
@@ -87,15 +88,16 @@ class UpdateTree
     {
         $translations = [];
         foreach ($list as $listItem) {
-            if (! array_key_exists('translations', $listItem)) {
+            if (! isset($listItem['translations'][$language]['name'])) {
                 continue;
             }
 
-            if (! array_key_exists($language, $listItem['translations'])) {
+            if (! isset($listItem['category_id'])) {
                 continue;
             }
 
-            $name                                         = $listItem['translations'][$language]['name'];
+            $name = $listItem['translations'][$language]['name'];
+
             $translations[(int) $listItem['category_id']] = $name;
         }
 

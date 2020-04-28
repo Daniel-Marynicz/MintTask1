@@ -50,7 +50,7 @@ Tests in directory `tests`
 
 App requires [Composer] to install dependencies. 
 
-For more information about installing docker please follow the documentation:
+For more information about installing [Composer] please follow the documentation:
 https://getcomposer.org/download/
 
 #### Install dependencies
@@ -74,7 +74,7 @@ or to display updated json you can run
 ./task1 ./tree.json ./list.json
 ```
 
-if you want save outupy you can do by using pipe
+if you want save output you can do this by using pipe
 
 ```
 ./task1 ./tree.json ./list.json > new-tree.json

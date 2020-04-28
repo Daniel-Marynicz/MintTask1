@@ -7,6 +7,7 @@ namespace Task1\Tests;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Exception\NotEncodableValueException;
 use Task1\FileGetContentsWrapper;
 use Task1\UpdateTree;
 
@@ -52,6 +53,35 @@ class UpdateTreeTest extends TestCase
     }
 
     /**
+     * @dataProvider invalidJsonDataProvider
+     */
+    public function testInvalidGetUpdatedTree(string $tree, string $list, string $language) : void
+    {
+        $this->fileGetContentsWrapper
+            ->method('fileGetContents')
+            ->withConsecutive(
+                ['tree.json'],
+                ['list.json']
+            )
+            ->willReturnOnConsecutiveCalls($tree, $list);
+
+        $this->expectException(NotEncodableValueException::class);
+        $this->updateTree->getUpdatedTree('tree.json', 'list.json', $language);
+    }
+
+    /**
+     * @dataProvider invalidJsonDataProvider
+     */
+    public function testInvalidGetUpdatedTreeFromString(
+        string $tree,
+        string $list,
+        string $language
+    ) : void {
+        $this->expectException(NotEncodableValueException::class);
+        $this->updateTree->getUpdatedTreeFromString($tree, $list, $language);
+    }
+
+    /**
      * @return array|string[][]
      */
     public function dataProvider() : array
@@ -76,7 +106,44 @@ class UpdateTreeTest extends TestCase
                 'pl_PL',
                 '[{"id":19,"name":"Zdrowie i uroda","children":[{"id":22,"children":[{"id":26,"children":[{"id":30,"children":[{"id":31,"children":[{"id":32,"children":[{"id":33,"children":[{"id":34,"name":"Pielęgnacja twarzy"}]}]}]}]}]}]}]}]',
             ],
+            'test4' => [
+                '[]',
+                '[]',
+                'aaasspl_PL',
+                '[]',
+            ],
+            'test5-remove-some-ids' => [
+                '[{"id":19,"children":[{"id":22,"children":[{"id":26,"children":[{"id":30,"children":[]}]}]}]}]',
+                '[{"category_id":"30","order":"2","root":"1","in_loyalty":"0","translations":{"pl_PL":{"trans_id":"1","category_id":"1","name":"some-name","description":"","active":"1","pres_id":null,"isdefault":"1","lang_id":"1","seo_title":"","seo_description":"","seo_keywords":"","seo_url":"","items":1,"attribute_groups":[1,2]}}}]',
+                'pl_PL',
+                '[{"id":19,"children":[{"id":22,"children":[{"id":26,"children":[{"id":30,"children":[],"name":"some-name"}]}]}]}]',
+            ],
+            'test6-remove-some-category_id' => [
+                '[{"id":19,"children":[{"id":22,"children":[{"children":[{"id":30,"children":[]}]}]}]}]',
+                '[{"order":"2","root":"1","in_loyalty":"0","translations":{"pl_PL":{"trans_id":"1","category_id":"1","name":"some-name","description":"","active":"1","pres_id":null,"isdefault":"1","lang_id":"1","seo_title":"","seo_description":"","seo_keywords":"","seo_url":"","items":1,"attribute_groups":[1,2]}}}]',
+                'pl_PL',
+                '[{"id":19,"children":[{"id":22,"children":[{"children":[{"id":30,"children":[]}]}]}]}]',
+            ],
         ];
         // phpcs:enable
+    }
+
+    /**
+     * @return array|string[][]
+     */
+    public function invalidJsonDataProvider() : array
+    {
+        return [
+            'test1' => [
+                'asdasd',
+                'adasd',
+                'pl_PL',
+            ],
+            'test2' => [
+                '[]',
+                'asda',
+                'pl_PL',
+            ],
+        ];
     }
 }
