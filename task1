@@ -1,0 +1,31 @@
+#!/usr/bin/env php
+<?php
+
+if (!in_array(PHP_SAPI, ['cli', 'phpdbg', 'embed'], true)) {
+echo 'Warning: The console should be invoked via the CLI version of PHP, not the '.PHP_SAPI.' SAPI'.PHP_EOL;
+}
+
+
+if (is_file($autoload = getcwd() . '/vendor/autoload.php')) {
+    require $autoload;
+} else {
+    fwrite(STDERR,
+        'You must set up the project dependencies, run the following commands:'.PHP_EOL.
+        'curl -s http://getcomposer.org/installer | php'.PHP_EOL.
+        'php composer.phar install'.PHP_EOL
+    );
+    exit(1);
+}
+
+set_error_handler(function (
+    int $severity,
+    string $message,
+    string $file,
+    int $line
+) {
+    throw new ErrorException($message, 0, $severity, $file, $line);
+});
+
+
+$factory = new \Task1\ApplicationFactory();
+$factory->createApplication()->run();

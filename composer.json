@@ -1,0 +1,58 @@
+{
+  "type": "project",
+  "require": {
+    "php": "^7.4",
+    "ext-json": "*",
+    "symfony/console": "^5.0",
+    "symfony/serializer": "^5.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "Task1\\": "src/Task1"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Task1\\": "tests/"
+    }
+  },
+  "require-dev": {
+    "phpstan/phpstan": "^0.12.19",
+    "phpunit/phpunit": "^9.1",
+    "squizlabs/php_codesniffer": "^3.5",
+    "phpstan/phpstan-phpunit": "^0.12.8",
+    "doctrine/coding-standard": "^7.0",
+    "phpstan/phpstan-symfony": "^0.12.6",
+    "phpstan/phpstan-doctrine": "^0.12.10"
+  },
+  "scripts": {
+    "phpcs": [
+      "./vendor/bin/phpcs"
+    ],
+    "phpcbf": [
+      "./vendor/bin/phpcbf"
+    ],
+    "phpcbfWithoutErrorCode": [
+      "./vendor/bin/phpcbf || true"
+    ],
+    "phpstan": [
+      "./vendor/bin/phpstan analyse"
+    ],
+    "phpunit": [
+      "./vendor/bin/phpunit "
+    ],
+    "phplint": [
+      "find . -path ./vendor -prune  -o -path ./var -prune -o  -name \"*.php\" -print0 | xargs -0 -n1 php -l"
+    ],
+    "tests": [
+      "@phpcbfWithoutErrorCode",
+      "@phpcs",
+      "@phpunit",
+      "@phpstan"
+    ],
+    "auto-scripts": {
+      "cache:clear": "symfony-cmd",
+      "assets:install %PUBLIC_DIR%": "symfony-cmd"
+    }
+  }
+}
