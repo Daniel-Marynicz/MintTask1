@@ -94,11 +94,11 @@ $ composer phpunit
 > ./vendor/bin/phpunit 
 PHPUnit 9.1.3 by Sebastian Bergmann and contributors.
 
-......                                                              6 / 6 (100%)
+................                                                  16 / 16 (100%)
 
-Time: 00:00.045, Memory: 6.00 MB
+Time: 00:00.047, Memory: 6.00 MB
 
-OK (6 tests, 18 assertions)
+OK (16 tests, 40 assertions)
 ```
 
 
