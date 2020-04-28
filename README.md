@@ -4,7 +4,7 @@
 ### Tech
 
 App uses a number of open source projects to work properly:
-
+* [PHP] required 7.4 version or later
 * [Symfony]  - Symfony, High Performance PHP Framework for Web Development
 * [Composer]    - A Dependency Manager for PHP
 * [PHP_CodeSniffer] PHP_CodeSniffer tokenizes PHP, JavaScript and CSS files and detects violations of a defined set of coding standards
@@ -110,7 +110,7 @@ PROPRIETARY
 **Have fun!**
 
 [//]: # 
-
+   [PHP]: <https://www.php.net>
    [Symfony]: <http://symfony.com>
    [Docker]: <https://www.docker.com/>
    [Docker Compose]: <https://www.docker.com/>
