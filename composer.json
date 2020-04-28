@@ -8,12 +8,12 @@
   },
   "autoload": {
     "psr-4": {
-      "Task1\\": "src/Task1"
+      "Task1\\": "src/"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "Task1\\": "tests/"
+      "Task1\\Tests\\": "tests/"
     }
   },
   "require-dev": {

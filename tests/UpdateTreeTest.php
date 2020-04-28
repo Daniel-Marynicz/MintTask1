@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Test\Task1;
+namespace Task1\Tests;
 
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
