@@ -1,5 +1,7 @@
 # Mint Software Task1 App
-======
+
+[![Build Status](https://travis-ci.com/Daniel-Marynicz/MintTask1.svg?branch=master)](https://travis-ci.com/Daniel-Marynicz/MintTask1)
+
 
 ### Tech
 
